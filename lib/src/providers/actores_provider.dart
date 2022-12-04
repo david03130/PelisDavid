@@ -37,8 +37,9 @@ class ActoresProvider {
   }
 
   Future<List<Actor>> getPopulares() async {
-    this._populares = await getActoresPopulares();
-    return this._populares;
+    final url = Uri.https(_url, '3/person/popular',
+        {'api_key': _apikey, 'language': _language}); // Pelicula
+    return await _procesarRespuesta(url);
   }
 
   Future<Actor> getActor(String peopleId) async {
@@ -88,18 +89,12 @@ class ActoresProvider {
       'language': _language,
       'page': _popularesPage.toString()
     }); // Actores
-    // final resp = await _procesarRespuesta(url);
+    final resp = await _procesarRespuesta(url);
 
-    final resp = await http.get(url);
-    final decodedData = json.decode(resp.body);
-
-    final actores = new Actor.fromJsonList(decodedData['results']);
-    final respuesta = actores.items;
-
-    _populares.addAll(respuesta);
+    _populares.addAll(resp);
     popularesSink(_populares);
 
     _cargando = false;
-    return respuesta;
+    return resp;
   }
 }
