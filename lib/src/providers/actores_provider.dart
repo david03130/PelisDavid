@@ -9,7 +9,8 @@ import 'package:scooby_app/src/models/actores_model.dart';
 class ActoresProvider {
   String _apikey = 'cc5e4e5ef8fb4113f47bfe29ca173e32';
   String _url = 'api.themoviedb.org';
-  String _language = 'es-ES';
+  // String _language = 'es-ES';
+  String _language = 'en-US';
 
   int _popularesPage = 0;
   bool _cargando = false;
@@ -50,10 +51,12 @@ class ActoresProvider {
     final decodedData = json.decode(resp.body);
 
     final actor = new Actor(
-        id: decodedData["id"],
-        name: decodedData["name"],
-        gender: decodedData["gender"],
-        profilePath: decodedData["profile_path"]);
+      id: decodedData["id"],
+      name: decodedData["name"],
+      gender: decodedData["gender"],
+      profilePath: decodedData["profile_path"],
+      biography: decodedData["biography"],
+    );
 
     return actor;
   }
