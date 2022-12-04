@@ -12,6 +12,9 @@ class Cast {
 }
 
 class Actor {
+  List<Actor> items = [];
+
+  String uniqueId;
   int castId;
   String character;
   String creditId;
@@ -41,6 +44,15 @@ class Actor {
     name = json['name'];
     order = json['order'];
     profilePath = json['profile_path'];
+  }
+
+  Actor.fromJsonList(List<dynamic> jsonList) {
+    if (jsonList == null) return;
+
+    for (var item in jsonList) {
+      final pelicula = new Actor.fromJsonMap(item);
+      items.add(pelicula);
+    }
   }
 
   getFoto() {

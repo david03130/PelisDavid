@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'dart:async';
 
 import 'package:scooby_app/src/models/actores_model.dart';
-import 'package:scooby_app/src/models/pelicula_model.dart';
+// import 'package:scooby_app/src/models/pelicula_model.dart';
 
 class ActoresProvider {
   String _apikey = 'cc5e4e5ef8fb4113f47bfe29ca173e32';
@@ -25,6 +25,15 @@ class ActoresProvider {
 
   void disposeStreams() {
     _popularesStreamController?.close();
+  }
+
+  Future<List<Actor>> _procesarRespuesta(Uri url) async {
+    final resp = await http.get(url);
+    final decodedData = json.decode(resp.body);
+
+    final actores = new Actor.fromJsonList(decodedData['results']);
+
+    return actores.items;
   }
 
   Future<List<Actor>> getPopulares() async {
@@ -48,23 +57,49 @@ class ActoresProvider {
     return actor;
   }
 
+  // Future<List<Actor>> getActoresPopulares() async {
+  //   final url = Uri.https(_url, '3/person/popular',
+  //       {'api_key': _apikey, 'language': _language}); // actores
+
+  //   final resp = await http.get(url);
+  //   final decodedData = json.decode(resp.body);
+  //   final results = decodedData.values.elementAt(1);
+
+  //   List<Actor> actoresList = [];
+  //   for (var i = 0; i < results.length; i++) {
+  //     final actor = new Actor();
+  //     actor.id = results[i]["id"];
+  //     actor.name = results[i]["name"];
+  //     actor.gender = results[i]["gender"];
+  //     actor.profilePath = results[i]["profile_path"];
+  //     actoresList.add(actor);
+  //   }
+  //   return actoresList;
+  // }
+
   Future<List<Actor>> getActoresPopulares() async {
-    final url = Uri.https(_url, '3/person/popular',
-        {'api_key': _apikey, 'language': _language}); // actores
+    if (_cargando) return [];
+
+    _cargando = true;
+    _popularesPage++;
+
+    final url = Uri.https(_url, '3/person/popular', {
+      'api_key': _apikey,
+      'language': _language,
+      'page': _popularesPage.toString()
+    }); // Actores
+    // final resp = await _procesarRespuesta(url);
 
     final resp = await http.get(url);
     final decodedData = json.decode(resp.body);
-    final results = decodedData.values.elementAt(1);
 
-    List<Actor> actoresList = [];
-    for (var i = 0; i < results.length; i++) {
-      final actor = new Actor();
-      actor.id = results[i]["id"];
-      actor.name = results[i]["name"];
-      actor.gender = results[i]["gender"];
-      actor.profilePath = results[i]["profile_path"];
-      actoresList.add(actor);
-    }
-    return actoresList;
+    final actores = new Actor.fromJsonList(decodedData['results']);
+    final respuesta = actores.items;
+
+    _populares.addAll(respuesta);
+    popularesSink(_populares);
+
+    _cargando = false;
+    return respuesta;
   }
 }
