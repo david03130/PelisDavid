@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scooby_app/src/pages/actor_detalle.dart';
 
 import 'package:scooby_app/src/pages/home_page.dart';
 import 'package:scooby_app/src/pages/pelicula_detalle.dart';
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (BuildContext context) => HomePage(),
-        'detalle': (BuildContext context) => PeliculaDetalle(),
+        'detalle': (BuildContext context) => ActorDetalle(),
       },
     );
   }

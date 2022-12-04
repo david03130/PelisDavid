@@ -15,24 +15,26 @@ class Actor {
   List<Actor> items = [];
 
   String uniqueId;
-  int castId;
-  String character;
-  String creditId;
+  // int castId;
+  // String character;
+  // String creditId;
   int gender;
   int id;
   String name;
-  int order;
+  // int order;
   String profilePath;
+  String biography;
 
   Actor({
-    this.castId,
-    this.character,
-    this.creditId,
+    // this.castId,
+    // this.character,
+    // this.creditId,
     this.gender,
     this.id,
     this.name,
-    this.order,
+    // this.order,
     this.profilePath,
+    this.biography,
   });
 
   Actor.fromJsonMap(Map<String, dynamic> json) {
@@ -40,14 +42,18 @@ class Actor {
     id = json['id'];
     name = json['name'];
     profilePath = json['profile_path'];
+    biography = json['biography'];
   }
 
   Actor.fromJsonList(List<dynamic> jsonList) {
     if (jsonList == null) return;
 
     for (var item in jsonList) {
-      final pelicula = new Actor.fromJsonMap(item);
-      items.add(pelicula);
+      final actor = new Actor.fromJsonMap(item);
+      if (actor.biography == null) {
+        actor.biography = "No description. Id: ${actor.id}";
+      }
+      items.add(actor);
     }
   }
 
