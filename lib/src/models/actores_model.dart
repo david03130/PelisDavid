@@ -1,3 +1,5 @@
+import 'package:scooby_app/src/providers/actores_provider.dart';
+
 class Cast {
   List<Actor> actores = [];
 
@@ -46,16 +48,35 @@ class Actor {
   }
 
   Actor.fromJsonList(List<dynamic> jsonList) {
+    // final actorProvider = new ActoresProvider();
     if (jsonList == null) return;
 
     for (var item in jsonList) {
-      final actor = new Actor.fromJsonMap(item);
+      Actor actor = new Actor.fromJsonMap(item);
       if (actor.biography == null) {
         actor.biography = "No description. Id: ${actor.id}";
       }
       items.add(actor);
     }
   }
+
+  // static Future<List> test(List<dynamic> jsonList) async {
+  //   final actorProvider = new ActoresProvider();
+  //   final fooItems = [];
+    
+  //   if (jsonList == null) return fooItems;
+
+  //   for (var item in jsonList) {
+  //     Actor actor = await actorProvider.getActor(item["id"]);
+  //     actor = new Actor.fromJsonMap(item);
+  //     if (actor.biography == null) {
+  //       actor.biography = "No description. Id: ${actor.id}";
+  //     }
+  //     fooItems.add(actor);
+  //   }
+
+  //   return fooItems;
+  // }
 
   getFoto() {
     if (profilePath == null) {

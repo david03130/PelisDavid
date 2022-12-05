@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 
 import 'package:scooby_app/src/models/actores_model.dart';
 import 'package:scooby_app/src/models/pelicula_model.dart';
+import 'package:scooby_app/src/providers/actores_provider.dart';
 
 import 'package:scooby_app/src/providers/peliculas_provider.dart';
 
 class ActorDetalle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final Actor actor = ModalRoute.of(context).settings.arguments;
+    // final actoresProvider = new ActoresProvider();
+    Actor actor = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
         body: CustomScrollView(

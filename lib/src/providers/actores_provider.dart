@@ -33,8 +33,20 @@ class ActoresProvider {
     final decodedData = json.decode(resp.body);
 
     final actores = new Actor.fromJsonList(decodedData['results']);
+    List<Actor> actoresFinal = await getListActores(actores.items);
 
-    return actores.items;
+    return actoresFinal;
+  }
+
+  Future<List<Actor>> getListActores(actoresPrev) async {
+    final actoresProvider = new ActoresProvider();
+    List<Actor> actoresList = [];
+
+    for (var actor in actoresPrev) {
+      actoresList.add(await actoresProvider.getActor(actor.id));
+    }
+
+    return actoresList;
   }
 
   Future<List<Actor>> getPopulares() async {
@@ -43,7 +55,7 @@ class ActoresProvider {
     return await _procesarRespuesta(url);
   }
 
-  Future<Actor> getActor(String peopleId) async {
+  Future<Actor> getActor(int peopleId) async {
     final url = Uri.https(_url, '3/person/${peopleId}',
         {'api_key': _apikey, 'language': _language}); // actores
 
