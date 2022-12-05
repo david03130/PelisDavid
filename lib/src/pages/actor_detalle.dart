@@ -21,7 +21,7 @@ class ActorDetalle extends StatelessWidget {
             SizedBox(height: 10.0),
             // _posterTitulo(context, actor),
             _descripcion(actor),
-            // _crearCasting(actor),
+            _crearPelis(actor),
           ]),
         )
       ],
@@ -63,11 +63,11 @@ class ActorDetalle extends StatelessWidget {
     );
   }
 
-  Widget _crearCasting(Pelicula pelicula) {
+  Widget _crearPelis(Actor actor) {
     final peliProvider = new PeliculasProvider();
 
     return FutureBuilder(
-      future: peliProvider.getCast(pelicula.id.toString()),
+      future: peliProvider.getCast(actor.id.toString()), // la parte de hay que cambiar
       builder: (context, AsyncSnapshot<List> snapshot) {
         if (snapshot.hasData) {
           return _crearActoresPageView(snapshot.data);
