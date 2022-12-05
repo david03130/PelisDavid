@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:async';
 
 import 'package:scooby_app/src/models/actores_model.dart';
+import 'package:scooby_app/src/models/pelicula_model.dart';
 // import 'package:scooby_app/src/models/pelicula_model.dart';
 
 class ActoresProvider {
@@ -66,10 +67,33 @@ class ActoresProvider {
       name: decodedData["name"],
       gender: decodedData["gender"],
       profilePath: decodedData["profile_path"],
-      biography: decodedData["biography"] == "" ? "No hay información." : decodedData["biography"],
+      biography: decodedData["biography"] == ""
+          ? "No hay información."
+          : decodedData["biography"],
     );
 
     return actor;
+  }
+
+  Future<List<Pelicula>> getPelis(String actorId) async {
+    final url = Uri.https(_url, '3/person/${actorId}/movie_credits',
+        {'api_key': _apikey, 'language': _language}); // pelicula
+
+    final resp = await http.get(url);
+    final decodedData = json.decode(resp.body);
+
+    var pelisCredits = decodedData.values.elementAt(0);
+    // final pelisCredits = new Peliculas.fromJsonList(decodedData['cast']);
+
+    List<Pelicula> peliculasList;
+    for (var peliCred in pelisCredits) {
+      Pelicula peli = new Pelicula();
+      peli.originalTitle = peliCred["original_title"].toString();
+      peli.posterPath = peliCred["poster_path"];
+      peliculasList.add(peli);
+    }
+
+    return peliculasList;
   }
 
   // Future<List<Actor>> getActoresPopulares() async {
