@@ -51,13 +51,13 @@ class ActoresProvider {
 
   Future<List<Actor>> getPopulares() async {
     final url = Uri.https(_url, '3/person/popular',
-        {'api_key': _apikey, 'language': _language}); // Pelicula
+        {'api_key': _apikey, 'language': _language});
     return await _procesarRespuesta(url);
   }
 
   Future<Actor> getActor(int peopleId) async {
     final url = Uri.https(_url, '3/person/${peopleId}',
-        {'api_key': _apikey, 'language': _language}); // actores
+        {'api_key': _apikey, 'language': _language});
 
     final resp = await http.get(url);
     final decodedData = json.decode(resp.body);
@@ -83,7 +83,6 @@ class ActoresProvider {
     final decodedData = json.decode(resp.body);
 
     var pelisCredits = decodedData.values.elementAt(0);
-    // final pelisCredits = new Peliculas.fromJsonList(decodedData['cast']);
 
     List<Pelicula> peliculasList = [];
     for (var peliCred in pelisCredits) {

@@ -9,7 +9,6 @@ import 'package:scooby_app/src/providers/peliculas_provider.dart';
 class ActorDetalle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // final actoresProvider = new ActoresProvider();
     Actor actor = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
@@ -19,7 +18,6 @@ class ActorDetalle extends StatelessWidget {
         SliverList(
           delegate: SliverChildListDelegate([
             SizedBox(height: 10.0),
-            // _posterTitulo(context, actor),
             _descripcion(actor),
             _crearPelis(actor),
           ]),
@@ -42,11 +40,8 @@ class ActorDetalle extends StatelessWidget {
           style: TextStyle(color: Colors.white, fontSize: 16.0),
         ),
         background: FadeInImage(
-          // image: NetworkImage("https://image.tmdb.org/t/p/w500" + actor.backdropPath),
           image: NetworkImage(actor.getFoto()),
-          //image: NetworkImage(pelicula.getBackgroundImg()),
           placeholder: AssetImage('assets/img/loading.gif'),
-          //fadeInDuration: Duration(microseconds: 150),
           fit: BoxFit.cover,
         ),
       ),

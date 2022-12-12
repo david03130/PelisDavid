@@ -8,12 +8,10 @@ import 'package:scooby_app/src/widgets/card_swiper_widget.dart';
 import 'package:scooby_app/src/widgets/movie_horizontal.dart';
 
 class HomePage extends StatelessWidget {
-  // final peliculasProvider = new PeliculasProvider();
   final actoresProvider = new ActoresProvider();
 
   @override
   Widget build(BuildContext context) {
-    // peliculasProvider.getPopulares();
     actoresProvider.getActoresPopulares();
 
     return Scaffold(
@@ -46,7 +44,6 @@ class HomePage extends StatelessWidget {
       future: actoresProvider.getPopulares(),
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         if (snapshot.hasData) {
-          // return CardSwiper(peliculas: snapshot.data);
           return CardSwiper(actores: snapshot.data);
         } else {
           return Container(
@@ -65,13 +62,11 @@ class HomePage extends StatelessWidget {
           Container(padding: EdgeInsets.only(left: 20.0), child: Text('Populares', style: Theme.of(context).textTheme.bodyText1)),
           SizedBox(height: 5.0),
           StreamBuilder(
-            // stream: actoresProvider.getActoresPopulares(),
             stream: actoresProvider.popularesStream,
             builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
               if (snapshot.hasData) {
                 return ActorHorizontal(
                   actores: snapshot.data,
-                  // siguientePagina: peliculasProvider.getPopulares,
                   siguientePagina: actoresProvider.getActoresPopulares,
                 );
               } else {
