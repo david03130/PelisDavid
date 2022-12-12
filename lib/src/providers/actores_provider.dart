@@ -5,6 +5,8 @@ import 'dart:async';
 
 import 'package:scooby_app/src/models/actores_model.dart';
 import 'package:scooby_app/src/models/pelicula_model.dart';
+import 'package:scooby_app/src/providers/credits_provider.dart';
+import 'package:scooby_app/src/providers/peliculas_provider.dart';
 // import 'package:scooby_app/src/models/pelicula_model.dart';
 
 class ActoresProvider {
@@ -50,8 +52,8 @@ class ActoresProvider {
   }
 
   Future<List<Actor>> getPopulares() async {
-    final url = Uri.https(_url, '3/person/popular',
-        {'api_key': _apikey, 'language': _language});
+    final url = Uri.https(
+        _url, '3/person/popular', {'api_key': _apikey, 'language': _language});
     return await _procesarRespuesta(url);
   }
 
@@ -85,10 +87,19 @@ class ActoresProvider {
     var pelisCredits = decodedData.values.elementAt(0);
 
     List<Pelicula> peliculasList = [];
+    // for (var peliCred in pelisCredits) {
+    //   Pelicula peli = new Pelicula();
+    //   peli.originalTitle = peliCred["original_title"].toString();
+    //   peli.posterPath = peliCred["poster_path"];
+    //   peliculasList.add(peli);
+    // }
     for (var peliCred in pelisCredits) {
+      final creditProv = new CreditsProvider();
+      final peliId = await creditProv.getPeliId(peliCred["credit_id"]);
+      final peliculaProv = new PeliculasProvider();
+
       Pelicula peli = new Pelicula();
-      peli.originalTitle = peliCred["original_title"].toString();
-      peli.posterPath = peliCred["poster_path"];
+      peli = await peliculaProv.getPeli(peliId);
       peliculasList.add(peli);
     }
 
@@ -115,7 +126,7 @@ class ActoresProvider {
     return resp;
   }
 
-    Future<List<Actor>> buscarPelicula(String query) async {
+  Future<List<Actor>> buscarPelicula(String query) async {
     final url = Uri.https(_url, '3/search/person', {
       'api_key': _apikey,
       'language': _language,

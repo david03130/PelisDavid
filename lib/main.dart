@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (BuildContext context) => HomePage(),
         'detalle': (BuildContext context) => ActorDetalle(),
+        'detallePelicula': (BuildContext context) => PeliculaDetalle(),
       },
     );
   }

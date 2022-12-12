@@ -80,13 +80,13 @@ class ActorDetalle extends StatelessWidget {
         pageSnapping: false,
         controller: PageController(viewportFraction: 0.3, initialPage: 1),
         itemCount: peliculas.length,
-        itemBuilder: (context, i) => _peliTarjeta(peliculas[i]),
+        itemBuilder: (context, i) => _peliTarjeta(context, peliculas[i]),
       ),
     );
   }
 
-  Widget _peliTarjeta(Pelicula pelicula) {
-    return Container(
+  Widget _peliTarjeta(BuildContext context, Pelicula pelicula) {
+    final tarjeta = Container(
         child: Column(
       children: <Widget>[
         ClipRRect(
@@ -104,5 +104,13 @@ class ActorDetalle extends StatelessWidget {
         )
       ],
     ));
+
+    return GestureDetector(
+      child: tarjeta,
+      onTap: () {
+        // final peliculaProv = new PeliculasProvider();
+        Navigator.pushNamed(context, 'detallePelicula', arguments: pelicula);
+      },
+    );
   }
 }

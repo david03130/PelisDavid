@@ -7,22 +7,6 @@ class DataSearchActores extends SearchDelegate {
   String seleccion = '';
   final actoresProvider = new ActoresProvider();
 
-  // final peliculas = [
-  //   'Spiderman',
-  //   'Aquaman',
-  //   'Batman',
-  //   'Shazam!',
-  //   'Ironman',
-  //   'Capitan America',
-  //   'Superman',
-  //   'Ironman 2',
-  //   'Ironman 3',
-  //   'Ironman 4',
-  //   'Ironman 5',
-  // ];
-
-  // final peliculasRecientes = ['Spiderman', 'Capitan America'];
-
   @override
   List<Widget> buildActions(BuildContext context) {
     // Las acciones de nuestro AppBar
@@ -99,30 +83,4 @@ class DataSearchActores extends SearchDelegate {
       },
     );
   }
-
-  // @override
-  // Widget buildSuggestions(BuildContext context) {
-  //   // Son las sugerencias que aparecen cuando la persona escribe
-
-  //   final listaSugerida = ( query.isEmpty )
-  //                           ? peliculasRecientes
-  //                           : peliculas.where(
-  //                             (p)=> p.toLowerCase().startsWith(query.toLowerCase())
-  //                           ).toList();
-
-  //   return ListView.builder(
-  //     itemCount: listaSugerida.length,
-  //     itemBuilder: (context, i) {
-  //       return ListTile(
-  //         leading: Icon(Icons.movie),
-  //         title: Text(listaSugerida[i]),
-  //         onTap: (){
-  //           seleccion = listaSugerida[i];
-  //           showResults( context );
-  //         },
-  //       );
-  //     },
-  //   );
-  // }
-
 }
