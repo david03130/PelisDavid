@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:scooby_app/src/models/actores_model.dart';
 import 'package:scooby_app/src/models/pelicula_model.dart';
-import 'package:scooby_app/src/providers/peliculas_provider.dart';
+import 'package:scooby_app/src/providers/actores_provider.dart';
 
 class DataSearchActores extends SearchDelegate {
   String seleccion = '';
-  final peliculasProvider = new PeliculasProvider();
+  final actoresProvider = new ActoresProvider();
 
-  final peliculas = [
-    'Spiderman',
-    'Aquaman',
-    'Batman',
-    'Shazam!',
-    'Ironman',
-    'Capitan America',
-    'Superman',
-    'Ironman 2',
-    'Ironman 3',
-    'Ironman 4',
-    'Ironman 5',
-  ];
+  // final peliculas = [
+  //   'Spiderman',
+  //   'Aquaman',
+  //   'Batman',
+  //   'Shazam!',
+  //   'Ironman',
+  //   'Capitan America',
+  //   'Superman',
+  //   'Ironman 2',
+  //   'Ironman 3',
+  //   'Ironman 4',
+  //   'Ironman 5',
+  // ];
 
-  final peliculasRecientes = ['Spiderman', 'Capitan America'];
+  // final peliculasRecientes = ['Spiderman', 'Capitan America'];
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -70,26 +71,25 @@ class DataSearchActores extends SearchDelegate {
     }
 
     return FutureBuilder(
-      future: peliculasProvider.buscarPelicula(query),
-      builder: (BuildContext context, AsyncSnapshot<List<Pelicula>> snapshot) {
+      future: actoresProvider.buscarPelicula(query),
+      builder: (BuildContext context, AsyncSnapshot<List<Actor>> snapshot) {
         if (snapshot.hasData) {
           final peliculas = snapshot.data;
 
           return ListView(
-              children: peliculas.map((pelicula) {
+              children: peliculas.map((actor) {
             return ListTile(
               leading: FadeInImage(
-                image: NetworkImage(pelicula.getPosterImg()),
+                image: NetworkImage(actor.getFoto()),
                 placeholder: AssetImage('assets/img/no-image.jpg'),
                 width: 50.0,
                 fit: BoxFit.contain,
               ),
-              title: Text(pelicula.title),
-              subtitle: Text(pelicula.originalTitle),
+              title: Text(actor.name),
               onTap: () {
                 close(context, null);
-                pelicula.uniqueId = '';
-                Navigator.pushNamed(context, 'detalle', arguments: pelicula);
+                actor.uniqueId = '';
+                Navigator.pushNamed(context, 'detalle', arguments: actor);
               },
             );
           }).toList());

@@ -7,6 +7,8 @@ import 'package:scooby_app/src/widgets/actor_horizontal.dart';
 import 'package:scooby_app/src/widgets/card_swiper_widget.dart';
 import 'package:scooby_app/src/widgets/movie_horizontal.dart';
 
+import '../search/search_actores.dart';
+
 class HomePage extends StatelessWidget {
   final actoresProvider = new ActoresProvider();
 
@@ -25,7 +27,7 @@ class HomePage extends StatelessWidget {
               onPressed: () {
                 showSearch(
                   context: context,
-                  delegate: DataSearch(),
+                  delegate: DataSearchActores(),
                 );
               },
             )

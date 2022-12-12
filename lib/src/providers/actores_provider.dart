@@ -115,23 +115,13 @@ class ActoresProvider {
     return resp;
   }
 
-  // Future<List<Actor>> getActoresPopulares() async {
-  //   final url = Uri.https(_url, '3/person/popular',
-  //       {'api_key': _apikey, 'language': _language}); // actores
+    Future<List<Actor>> buscarPelicula(String query) async {
+    final url = Uri.https(_url, '3/search/person', {
+      'api_key': _apikey,
+      'language': _language,
+      'query': query
+    }); // Pelicula
 
-  //   final resp = await http.get(url);
-  //   final decodedData = json.decode(resp.body);
-  //   final results = decodedData.values.elementAt(1);
-
-  //   List<Actor> actoresList = [];
-  //   for (var i = 0; i < results.length; i++) {
-  //     final actor = new Actor();
-  //     actor.id = results[i]["id"];
-  //     actor.name = results[i]["name"];
-  //     actor.gender = results[i]["gender"];
-  //     actor.profilePath = results[i]["profile_path"];
-  //     actoresList.add(actor);
-  //   }
-  //   return actoresList;
-  // }
+    return await _procesarRespuesta(url);
+  }
 }
